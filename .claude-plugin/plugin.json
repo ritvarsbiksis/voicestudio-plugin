@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "voicestudio-plugin",
+  "displayName": "VoiceStudio",
+  "version": "0.1.0",
+  "description": "Let Claude speak, generate speech files, transcribe audio and clone voices through the local VoiceStudio app: the voicestudio MCP server (plays audio on your Mac, returns file paths instead of base64) plus the voice-studio skill for expressive, natural-sounding speech.",
+  "author": {
+    "name": "Ritvars Bikšis"
+  },
+  "repository": "https://github.com/ritvarsbiksis/voicestudio-plugin",
+  "license": "MIT",
+  "keywords": [
+    "voicestudio",
+    "tts",
+    "text-to-speech",
+    "speech",
+    "voice",
+    "transcription",
+    "voice-cloning",
+    "mcp"
+  ],
+  "userConfig": {
+    "port": {
+      "type": "number",
+      "title": "VoiceStudio port",
+      "description": "Loopback port of the VoiceStudio backend (the app's API). VoiceStudio uses 3900 unless you changed it.",
+      "default": 3900,
+      "min": 1,
+      "max": 65535
+    },
+    "language": {
+      "type": "string",
+      "title": "Speech language",
+      "description": "Default language for speech: an ISO 639 code such as lv, en or de, or Auto to let VoiceStudio detect it from the text.",
+      "default": "lv"
+    },
+    "voice": {
+      "type": "string",
+      "title": "Default voice",
+      "description": "Voice profile name or ID from VoiceStudio. Leave empty to use VoiceStudio's default voice.",
+      "default": ""
+    },
+    "speed": {
+      "type": "number",
+      "title": "Speech speed",
+      "description": "Speed multiplier, 0.25 to 4.0.",
+      "default": 1.1,
+      "min": 0.25,
+      "max": 4
+    },
+    "steps": {
+      "type": "number",
+      "title": "Diffusion steps",
+      "description": "Quality versus speed: 16 is fast, 24 balanced, 32 studio quality.",
+      "default": 24,
+      "min": 4,
+      "max": 64
+    },
+    "output_dir": {
+      "type": "string",
+      "title": "Output folder",
+      "description": "Folder where generated audio files are saved. Leave empty for ~/Music/VoiceStudio.",
+      "default": ""
+    },
+    "auto_launch": {
+      "type": "boolean",
+      "title": "Start VoiceStudio automatically",
+      "description": "When the backend does not answer, open VoiceStudio.app in the background and wait for it to be ready.",
+      "default": true
+    }
+  },
+  "mcpServers": {
+    "voicestudio": {
+      "command": "bash",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/scripts/start-mcp.sh"
+      ],
+      "env": {
+        "VOICESTUDIO_PLUGIN_PORT": "${user_config.port}",
+        "VOICESTUDIO_PLUGIN_LANGUAGE": "${user_config.language}",
+        "VOICESTUDIO_PLUGIN_VOICE": "${user_config.voice}",
+        "VOICESTUDIO_PLUGIN_SPEED": "${user_config.speed}",
+        "VOICESTUDIO_PLUGIN_STEPS": "${user_config.steps}",
+        "VOICESTUDIO_PLUGIN_OUTPUT_DIR": "${user_config.output_dir}",
+        "VOICESTUDIO_PLUGIN_AUTO_LAUNCH": "${user_config.auto_launch}"
+      }
+    }
+  }
+}

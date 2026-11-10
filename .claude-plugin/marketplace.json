@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "voicestudio",
+  "description": "VoiceStudio local speech tools for Claude Code",
+  "owner": {
+    "name": "Ritvars Bikšis"
+  },
+  "plugins": [
+    {
+      "name": "voicestudio-plugin",
+      "source": "./",
+      "description": "voicestudio MCP server (speak, generate, transcribe, clone through the local VoiceStudio app) plus the voice-studio skill",
+      "category": "productivity"
+    }
+  ]
+}
